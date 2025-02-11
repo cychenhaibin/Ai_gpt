@@ -1,6 +1,6 @@
 // 路由主入口文件
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import Home from '../views/home/Home.vue'
 import { RoutesArray } from './routes.ts'
 import { beforeEach, afterEach } from './guards.ts'
 const router = createRouter({
