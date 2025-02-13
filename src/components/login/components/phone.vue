@@ -1,11 +1,147 @@
 <script setup lang="ts">
+import {getImageCode, loginVerification, verifyImageCode} from '@api/login.ts'
+import SlideSplit from '@components/login/SlideSplit/index.vue'
+import { ElMessage } from 'element-plus'
+import {reactive, ref} from "vue";
+let slideShow = ref(false)
+let slideInfo = reactive({
+  bigImageBase64:'',
+  smallImageBase64:'',
+  bigHeight: 0,
+  bigWidth: 0,
+  smallWidth: 0,
+  smallHeight: 0,
 
+})
+const form = reactive({
+  phone: '',
+  code: ''
+})
+// 获取验证码图像
+const getImgCode = async () => {
+  let res:any = await getImageCode({
+    phone:form.phone
+  })
+  if(res.code === 0){
+    Object.assign(slideInfo,res.data)
+  }else {
+    ElMessage({
+      message: res.errorMessage,
+      type: 'error',
+    })
+  }
+}
+// 发送验证码
+const btn = async () =>{
+  await getImgCode()
+  if (form.phone !== ''){
+    slideShow.value = true
+  }
+}
+const onJudge = async (left:any)=> {
+  let res:any = await verifyImageCode({
+    movePosX:left,
+    phone:form.phone
+  })
+  console.log(res)
+  if(res.code !== 0) {
+    return getImgCode()
+  }
+  slideShow.value = false
+}
+// 登录
+const login = async () => {
+  let res:any = await loginVerification({
+    phone:form.phone,
+    verificationCode:form.code
+  })
+  if(res.code !== 0){
+
+  } else {
+    ElMessage({
+      message: res.errorMessage,
+      type: 'success',
+    })
+  }
+}
 </script>
 
 <template>
+  <div class="phone">
+    <input type="text" placeholder="请输入手机号" v-model="form.phone" />
+    <div class="code">
+      <input type="text" placeholder="请输入验证码" v-model="form.code" />
+      <button @click="btn">发送验证码</button>
+    </div>
+    <div class="password">
+      <input type="password" placeholder="请输入密码" />
+    </div>
+    <button class="login" @click="login">登 录</button>
+  </div>
+  <div class="slideSplit" v-if="slideShow">
+    <SlideSplit :w="slideInfo.bigWidth"
+                :h="slideInfo.bigHeight"
+                :l="slideInfo.smallWidth"
+                :bigImg="slideInfo.bigImageBase64"
+                :smImg="slideInfo.smallImageBase64"
+                :smallHeight="slideInfo.smallHeight"
+                @sliderJudge="onJudge"
+                @request-event="getImgCode"
+    ></SlideSplit>
+  </div>
 
 </template>
 
 <style scoped>
-
+.phone{
+  width: 100%;
+  margin: 30px 0;
+}
+.phone input {
+  width: calc(100% - 40px);
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  margin: 10px 0;
+  border-radius: 4px;
+  font-size: 16px;
+}
+.phone input:focus {
+  outline: none;
+}
+.code {
+  display: flex;
+  align-items: center;
+}
+.code button {
+  height: 100%;
+  width: 150px;
+  padding: 9px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #7eb9f9;
+  color: #fff;
+}
+.login {
+  margin-top: 40px;
+  height: 100%;
+  width: 100%;
+  padding: 9px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #7eb9f9;
+  color: #fff;
+}
+.slideSplit {
+  position: fixed;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  background: #F4F7FC;
+  border-radius: 8px;
+  padding: 30px;
+}
 </style>

@@ -39,6 +39,7 @@ const showIsModal = () => {
       cursor: pointer;
       position: absolute;
       bottom: 40px;
+      text-align: center;
       .login-btn{
         cursor: pointer;
         display: flex;
@@ -48,7 +49,7 @@ const showIsModal = () => {
         height: 38px;
         color: #fff;
         border-radius: 19px;
-        background: #c90009;
+        background: #7eb9f9;
         img{
           width: 20px;
           height: 20px;

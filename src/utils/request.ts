@@ -1,6 +1,6 @@
 import axios from 'axios'
 const request = axios.create({
-    baseURL: 'http://39.100.86.70:8088/',
+    // baseURL: 'http://39.100.86.70:8088/',
 });
 
 // 添加请求拦截器
@@ -25,4 +25,25 @@ request.interceptors.response.use(function (response) {
     return Promise.reject(error);
 });
 
-export default request;
+// 封装 get、post
+const http = {
+    get(url: string, params:any, config:any) {
+        return new Promise((resolve, reject) => {
+            request.get(url,{params,...config}).then(response => {
+                resolve(response.data);
+            }).catch(error => {
+                reject(error);
+            })
+        })
+    },
+    post(url: string, data:any, config?:any) {
+        return new Promise((resolve, reject) => {
+            request.post(url,data,config).then(response => {
+                resolve(response.data);
+            }).catch(error => {
+                reject(error);
+            })
+        })
+    },
+}
+export default http;

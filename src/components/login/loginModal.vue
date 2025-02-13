@@ -3,6 +3,7 @@ import {ref,defineProps,defineEmits} from 'vue'
 import wechat from '@components/login/components/wechat.vue'
 import phone from '@components/login/components/phone.vue'
 import password from '@components/login/components/password.vue'
+
 const props = defineProps ({
   isModal:{
     type: Boolean,
@@ -15,8 +16,8 @@ const close = () => {
 }
 let loginTabs = ref([
   {id:0,name:'扫码登录',label:wechat},
-  {id:1,name:'扫码登录',label:phone},
-  {id:2,name:'扫码登录',label:password},
+  {id:1,name:'验证码登录',label:phone},
+  {id:2,name:'密码登录',label:password},
 ])
 // let curId = ref(0)
 // const tabs = (id:number)=>{
@@ -34,10 +35,16 @@ const tabs = (item:any) => {
 <teleport to="body" v-if="isModal">
   <div class="modal-backrop" @click="close"></div>
   <div class="login">
-    <button @click="close">X</button>
-    <ul>
-      <li v-for="(item,index) in loginTabs" :key="item.id" @click="tabs(item)">{{item.name}}</li>
-    </ul>
+    <div class="top">
+      <div class="close">
+        <button @click="close">X</button>
+      </div>
+      <div class="tab">
+        <ul>
+          <li v-for="(item,index) in loginTabs" :key="item.id" @click="tabs(item)" :class="{ active: currentIndex === index }">{{item.name}}</li>
+        </ul>
+      </div>
+    </div>
     <component :is="comp"></component>
   </div>
 </teleport>
@@ -57,14 +64,58 @@ const tabs = (item:any) => {
 }
 .login{
   position: fixed;
-  width: 500px;
+  width: 350px;
   height: 430px;
   background-color: white;
-  border-radius: 41px;
+  border-radius: 20px;
   z-index: 1100;
-  padding: 25px 0 15px;
+  padding: 25px 40px 15px;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
 }
+ul li {
+  list-style: none;
+  cursor: pointer;
+}
+.close {
+  display: flex;
+  justify-content: flex-end;
+
+}
+.close button {
+  padding: 2px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+.tab {
+  margin-top: 20px;
+  background: #F4F7FC;
+  border-radius: 8px;
+}
+.tab ul {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+}
+.tab ul li {
+  list-style: none;
+  cursor: pointer;
+  padding: 10px; /* 添加一些内边距，使背景色看起来更明显 */
+  transition: background-color 0.3s ease; /* 添加过渡效果 */
+  flex: 1; /* 每个子项平分父容器 */
+  text-align: center; /* 可选：让内容居中 */
+}
+.tab ul li:hover {
+  background: rgba(211, 223, 241, 0.7);;
+
+  border-radius: 8px;
+}
+.tab ul li.active { /* 定义激活状态的样式 */
+  background-color: #7eb9f9; /* 蓝色背景 */
+  border-radius: 8px;
+  color: white; /* 文字颜色为白色 */
+}
+
 </style>
