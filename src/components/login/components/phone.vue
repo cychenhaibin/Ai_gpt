@@ -45,6 +45,10 @@ const onJudge = async (left:any)=> {
   })
   console.log(res)
   if(res.code !== 0) {
+    ElMessage({
+      message: res.errorMessage,
+      type: 'error',
+    })
     return getImgCode()
   }
   slideShow.value = false
