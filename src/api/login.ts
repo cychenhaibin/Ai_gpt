@@ -7,7 +7,12 @@ export  const getImageCode = (data: any) => {
 export const verifyImageCode = (data: any) => {
     return http.post('api/xlx-sso/user/verifyImageCode',data)
 }
+
 // 验证码登录
 export const loginVerification = (data: any) => {
     return http.post('api/xlx-sso/user/loginVerification',data)
+}
+// 微信登录
+export const getLoginParam = () => {
+    return http.get('api/xlx-sso/oauth/wechat/getLoginParam')
 }

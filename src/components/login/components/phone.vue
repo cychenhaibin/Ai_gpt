@@ -103,11 +103,12 @@ const login = async () => {
 }
 .phone input {
   width: calc(100% - 40px);
-  border: 1px solid #ccc;
-  padding: 10px 20px;
+  border: 1px solid #F4F7FC;
+  padding: 11px 20px;
   margin: 10px 0;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 16px;
+  background: #F4F7FC;
 }
 .phone input:focus {
   outline: none;
@@ -122,7 +123,7 @@ const login = async () => {
   padding: 9px;
   font-size: 16px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   background: #7eb9f9;
   color: #fff;
@@ -131,10 +132,10 @@ const login = async () => {
   margin-top: 40px;
   height: 100%;
   width: 100%;
-  padding: 9px;
+  padding: 11px;
   font-size: 16px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   background: #7eb9f9;
   color: #fff;

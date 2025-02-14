@@ -1,10 +1,32 @@
 <script setup lang="ts">
 import loginModal from '@components/login/loginModal.vue'
-import {ref} from 'vue'
+import {ref,onMounted,watch} from 'vue'
+import {getInfo} from '@api/user.ts'
+import {useUserStore} from '@stores/useUserStore.ts'
+let userStore = useUserStore()
 const isModal = ref(false)
 const showIsModal = () => {
   isModal.value = true
 }
+// onMounted(()=>{
+//   displayUrlParams()
+// })
+// const displayUrlParams = () => {
+//   const urlParams = new URLSearchParams(window.location.search)
+//   const token = urlParams.get('token')
+// }
+watch(() => window.location.href,async (newUrl, oldUrl)=>{
+  const urlParams = new URLSearchParams(window.location.search)
+  // 从地址中获取token
+  const token = urlParams.get('token')
+  if(token){
+    localStorage.setItem('token',token)
+    // 获取用户信息
+    let res:any = await getInfo()
+    // 保存用户信息到store
+    userStore.setUserInfo(res.data)
+  }
+},{immediate:true})
 </script>
 
 <template>
