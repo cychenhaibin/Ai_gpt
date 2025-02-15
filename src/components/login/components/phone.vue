@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {getImageCode, loginVerification, verifyImageCode} from '@api/login.ts'
 import SlideSplit from '@components/login/SlideSplit/index.vue'
+import useLogin from '@hooks/useLogin.ts'
 import { ElMessage } from 'element-plus'
 import {reactive, ref} from "vue";
 let slideShow = ref(false)
@@ -74,7 +75,7 @@ const login = async () => {
   <div class="phone">
     <input type="text" placeholder="请输入手机号" v-model="form.phone" />
     <div class="code">
-      <input type="text" placeholder="请输入验证码" v-model="form.code" />
+      <input class="code-input" type="text" placeholder="请输入验证码" v-model="form.code" />
       <button @click="btn">发送验证码</button>
     </div>
     <div class="password">
@@ -107,8 +108,11 @@ const login = async () => {
   padding: 11px 20px;
   margin: 10px 0;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 20px;
   background: #F4F7FC;
+}
+.code-input{
+  border-radius: 8px 0 0 8px;
 }
 .phone input:focus {
   outline: none;
@@ -119,11 +123,11 @@ const login = async () => {
 }
 .code button {
   height: 100%;
-  width: 150px;
+  width: 200px;
   padding: 9px;
-  font-size: 16px;
+  font-size: 20px;
   border: none;
-  border-radius: 8px;
+  border-radius: 0 8px 8px 0;
   cursor: pointer;
   background: #7eb9f9;
   color: #fff;
@@ -133,7 +137,8 @@ const login = async () => {
   height: 100%;
   width: 100%;
   padding: 11px;
-  font-size: 16px;
+  font-size: 20px;
+  font-weight: bold;
   border: none;
   border-radius: 8px;
   cursor: pointer;

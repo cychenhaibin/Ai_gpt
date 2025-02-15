@@ -11,14 +11,21 @@ interface IUserInfo{
 export const useUserStore = defineStore('storeId',  {
     state:():{
         userInfo:Partial<IUserInfo>
+        userState:boolean,
     }=>{
         return {
-            userInfo:{}
+            userInfo:{},
+            userState:false
         }
     },
     actions:{
         setUserInfo(info:IUserInfo){
             this.userInfo = info;
+            this.userState = true
+        },
+        removeUserInfo(){
+            this.userInfo = {};
+            this.userState = false
         }
     },
     persist:{
@@ -26,7 +33,7 @@ export const useUserStore = defineStore('storeId',  {
         strategies: [
             {
                 storage: localStorage,
-                path: ['userInfo']
+                path: ['userInfo', 'userState'],
             }
         ]
     }

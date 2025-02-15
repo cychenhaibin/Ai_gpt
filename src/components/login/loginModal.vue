@@ -36,8 +36,8 @@ const tabs = (item:any) => {
   <div class="modal-backrop" @click="close"></div>
   <div class="login">
     <div class="top">
-      <div class="close">
-        <button @click="close">X</button>
+      <div class="close"@click="close">
+<!--        <img src="@/images/icon-close.png" alt="" />-->
       </div>
       <div class="tab">
         <ul>
@@ -64,7 +64,7 @@ const tabs = (item:any) => {
 }
 .login{
   position: fixed;
-  width: 350px;
+  width: 400px;
   height: 430px;
   background-color: white;
   border-radius: 20px;
@@ -97,7 +97,7 @@ ul li {
 .tab ul {
   display: flex;
   justify-content: space-between;
-  font-size: 18px;
+  font-size: 20px;
 }
 .tab ul li {
   list-style: none;
