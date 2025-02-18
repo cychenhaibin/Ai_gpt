@@ -74,7 +74,7 @@ const setRechargeMethod = (item:Object) =>{
     background: #FFF7F7;
     border-radius: 7px 7px 7px 7px;
     border: 1px solid #C90000;
-    font-size: 18px;
+    font-size: 14px;
     color: #C90000;
     margin-top: 18px;
     padding-left: 13px;
@@ -90,7 +90,7 @@ const setRechargeMethod = (item:Object) =>{
       display: flex;
       align-items: center;
       justify-content: left;
-      font-size: 22px;
+      font-size: 18px;
       color: #232323;
       margin: 38px 90px 30px 0;
 

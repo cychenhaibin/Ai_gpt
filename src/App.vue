@@ -89,7 +89,7 @@ const userConfig = () => {
         align-items: center;
         justify-content: center;
         width: 150px;
-        height: 48px;
+        height: 40px;
         color: #fff;
         border-radius: 24px;
         background: #C90000;

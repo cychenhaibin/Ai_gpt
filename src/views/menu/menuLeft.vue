@@ -63,10 +63,9 @@ const menuList = ref([
     justify-content: center;
     align-items: center;
     width: 160px;
-    height: 50px;
+    height: 45px;
     margin-top:18px;
     cursor: pointer;
-    padding: 5px 0;
     background: #f2f2f2;
     border-radius: 30px;
     img {
@@ -76,8 +75,9 @@ const menuList = ref([
     p{
       margin-left: 8px;
       color: #333;
-      font-size:20px;
+      font-size:16px;
       text-align: center;
+      line-height: normal;
     }
   }
 }

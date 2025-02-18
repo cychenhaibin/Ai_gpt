@@ -108,6 +108,12 @@ const showPayment = (item:Object)=>{
 const orderNumber = ref<number>(0)
 const getWxpay = async (id:number)=>{
   let res:any = await wxpayNative(id)
+  if (res.code !== 0){
+    ElMessage({
+      message: res.errorMessage,
+      type: 'error',
+    })
+  }
   let {codeUrl,orderNo} = res.data
   orderNumber.value = orderNo
   generateQRCode(codeUrl)
@@ -117,6 +123,12 @@ const getWxpay = async (id:number)=>{
 //支付宝支付
 const getAlipay = async (id:number)=>{
   let res:any = await alipayScanPay(id)
+  if (res.code !== 0){
+    ElMessage({
+      message: res.errorMessage,
+      type: 'error',
+    })
+  }
   let {codeUrl,orderNo} = res.data
   orderNumber.value = orderNo
   generateQRCode(codeUrl)
@@ -139,6 +151,7 @@ const pamentChange = (item:Object)=>{
 //展示二维码
 //生成二维码并且进行渲染
 import QRCode from 'qrcode'
+import {ElMessage} from "element-plus";
 let codeUrl = ref('')
 const generateQRCode = (url:string)=>{
   if(url){

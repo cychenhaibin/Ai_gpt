@@ -111,12 +111,12 @@ const login = async () => {
 }
 .phone input {
   width: calc(100% - 40px);
-  border: 1px solid #F4F7FC;
+  border: 1px solid rgba(250,240,240,.8);
   padding: 11px 20px;
   margin: 10px 0;
   border-radius: 8px;
-  font-size: 20px;
-  background: #F4F7FC;
+  font-size: 18px;
+  background: rgba(250,240,240,.8);
 }
 .code-input{
   border-radius: 8px 0 0 8px;
@@ -132,11 +132,11 @@ const login = async () => {
   height: 100%;
   width: 200px;
   padding: 9px;
-  font-size: 20px;
+  font-size: 18px;
   border: none;
   border-radius: 0 8px 8px 0;
   cursor: pointer;
-  background: #7eb9f9;
+  background: #C90000;
   color: #fff;
   line-height: normal;
 }
@@ -146,12 +146,12 @@ const login = async () => {
   width: 100%;
   line-height: normal;
   padding: 11px;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  background: #7eb9f9;
+  background: #C90000;
   color: #fff;
 }
 .slideSplit {

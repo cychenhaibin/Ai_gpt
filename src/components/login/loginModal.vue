@@ -113,7 +113,7 @@ ul li {
   line-height: normal;
 }
 .tab ul li:hover {
-  background: #f7b1b1;
+  background: #fbe3e3;
 
   border-radius: 8px;
 }
