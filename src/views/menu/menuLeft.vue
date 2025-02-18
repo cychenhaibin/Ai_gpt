@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import {ref} from "vue";
-// import img1 from '@/assets/image/menu/dialogue.png'
-// import img2 from '@/assets/image/menu/interview.png'
-// import img3 from '@/assets/image/menu/programmer.png'
-import img1 from '@/assets/image/menu/p.png'
-import img2 from '@/assets/image/menu/p.png'
-import img3 from '@/assets/image/menu/p.png'
+import img1 from '@/assets/image/menu/dialogue.png'
+import img2 from '@/assets/image/menu/interview.png'
+import img3 from '@/assets/image/menu/programmer.png'
 const menuList = ref([
   {id:1,image:img1,text:'智能对话'},
   {id:1,image:img2,text:'模拟面试'},
@@ -17,8 +14,7 @@ const menuList = ref([
 <div class="menu-header">
   <div class="menu-img">
     <div class="menu-logo">
-<!--      <img src="@/assets/images/logo.png" alt="" />-->
-      <img src="@/assets/image/login/p.png" alt="" />
+      <img src="../../assets/image/menu/logo.png" alt="" />
     </div>
     <div class="menu-ai">
       AiGPT

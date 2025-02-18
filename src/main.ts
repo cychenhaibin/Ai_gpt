@@ -1,5 +1,5 @@
 //import './assets/main.css'
-
+import './assets/css/normalize.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import PiniaPluginPersist from 'pinia-plugin-persist'

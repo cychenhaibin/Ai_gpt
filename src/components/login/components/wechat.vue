@@ -15,17 +15,21 @@ onMounted(() => {
       scope,
       redirect_uri: encodeURIComponent(redirectUri),
       state,
+      href: 'data:text/css;base64,LmltcG93ZXJCb3ggLnFyY29kZSB7d2lkdGg6IDIwMHB4O30NCi5pbXBvd2VyQm94IC50aXRsZSB7ZGlzcGxheTogbm9uZTt9DQouaW1wb3dlckJveCAuaW5mbyB7ZGlzcGxheTogbm9uZX0NCi5zdGF0dXNfaWNvbiB7ZGlzcGxheTogbm9uZX0NCi5pbXBvd2VyQm94IC5zdGF0dXMge3RleHQtYWxpZ246IGNlbnRlcjt9DQouaW1wb3dlckJveCAucXJjb2RlIHt3aWR0aDogMjMwcHg7bWFyZ2luLXRvcDogO2JvcmRlcjogbm9uZTt9DQo='
     })
   }
 })
 </script>
 
 <template>
-<div id="code"></div>
+  <div class="code-box">
+    <div id="code"></div>
+  </div>
 </template>
 
 <style scoped>
 #code {
+  margin-top: 40px;
   display: flex;
   justify-content: center;
   align-items: center;

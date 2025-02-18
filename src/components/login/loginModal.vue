@@ -24,7 +24,7 @@ let loginTabs = ref([
 //   curId.value = id
 // }
 let currentIndex = ref(0)
-let comp = ref(phone)
+let comp = ref(wechat)
 const tabs = (item:any) => {
   currentIndex.value = item.id
   comp.value = item.label
@@ -36,8 +36,8 @@ const tabs = (item:any) => {
   <div class="modal-backrop" @click="close"></div>
   <div class="login">
     <div class="top">
-      <div class="close"@click="close">
-<!--        <img src="@/images/icon-close.png" alt="" />-->
+      <div class="close" @click="close">
+        <img src="@/assets/image/login/exit.png" alt="" />
       </div>
       <div class="tab">
         <ul>
@@ -81,7 +81,11 @@ ul li {
 .close {
   display: flex;
   justify-content: flex-end;
-
+}
+.close img {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
 }
 .close button {
   padding: 2px;
@@ -91,7 +95,7 @@ ul li {
 }
 .tab {
   margin-top: 20px;
-  background: #F4F7FC;
+  background: rgba(250,240,240,.8);
   border-radius: 8px;
 }
 .tab ul {
@@ -106,16 +110,18 @@ ul li {
   transition: background-color 0.3s ease; /* 添加过渡效果 */
   flex: 1; /* 每个子项平分父容器 */
   text-align: center; /* 可选：让内容居中 */
+  line-height: normal;
 }
 .tab ul li:hover {
-  background: rgba(211, 223, 241, 0.7);;
+  background: #f7b1b1;
 
   border-radius: 8px;
 }
 .tab ul li.active { /* 定义激活状态的样式 */
-  background-color: #7eb9f9; /* 蓝色背景 */
+  background-color: #C90000; /* 蓝色背景 */
   border-radius: 8px;
   color: white; /* 文字颜色为白色 */
+  line-height: normal;
 }
 
 </style>

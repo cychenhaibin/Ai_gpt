@@ -44,7 +44,6 @@ const onJudge = async (left:any)=> {
     movePosX:left,
     phone:form.phone
   })
-  console.log(res)
   if(res.code !== 0) {
     ElMessage({
       message: res.errorMessage,
@@ -54,6 +53,8 @@ const onJudge = async (left:any)=> {
   }
   slideShow.value = false
 }
+import {useUserStore} from "@stores/useUserStore.ts";
+let userStore = useUserStore();
 // 登录
 const login = async () => {
   let res:any = await loginVerification({
@@ -61,14 +62,20 @@ const login = async () => {
     verificationCode:form.code
   })
   if(res.code !== 0){
-
+    ElMessage({
+      message: res.errorMessage,
+      type: 'error',
+    })
   } else {
+    const token = res.data.token;
+    useLogin(token)
     ElMessage({
       message: res.errorMessage,
       type: 'success',
     })
   }
 }
+
 </script>
 
 <template>
@@ -131,11 +138,13 @@ const login = async () => {
   cursor: pointer;
   background: #7eb9f9;
   color: #fff;
+  line-height: normal;
 }
 .login {
   margin-top: 40px;
   height: 100%;
   width: 100%;
+  line-height: normal;
   padding: 11px;
   font-size: 20px;
   font-weight: bold;
