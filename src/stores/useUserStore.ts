@@ -19,13 +19,21 @@ export const useUserStore = defineStore('storeId',  {
         }
     },
     actions:{
+        isLogin(token:string){
+            if(token){
+                this.token = token
+            }
+        },
         setUserInfo(info:IUserInfo){
-            this.userInfo = info;
-            this.userState = true
+            if (token){
+                this.userInfo = info;
+                this.userState = true
+            }
         },
         removeUserInfo(){
             this.userInfo = {};
             this.userState = false
+            this.token = ''
         }
     },
     persist:{
@@ -33,7 +41,7 @@ export const useUserStore = defineStore('storeId',  {
         strategies: [
             {
                 storage: localStorage,
-                path: ['userInfo', 'userState'],
+                path: ['userInfo', 'userState', 'token'],
             }
         ]
     }

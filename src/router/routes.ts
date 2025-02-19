@@ -2,6 +2,7 @@
 import Home from "@views/home/Home.vue";
 // import UserConfig from "@views/user-config/UserConfig.vue"
 import UserConfig from "@views/user-config/index.vue"
+import Test from "@views/home/Test.vue"
 export const RoutesArray = [
     {
         path: '/',
@@ -12,5 +13,10 @@ export const RoutesArray = [
         path: '/userConfig',
         name: 'userConfig',
         component: UserConfig,
+    },
+    {
+        path: '/test',
+        name: 'test',
+        component: Test,
     },
 ]

@@ -160,7 +160,7 @@ const login = async () => {
   top: 50%;
   right: 50%;
   transform: translate(50%, -50%);
-  background: #F4F7FC;
+  background: rgba(250,240,240,.8);
   border-radius: 8px;
   padding: 30px;
 }

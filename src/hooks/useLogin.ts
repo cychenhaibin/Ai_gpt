@@ -5,7 +5,8 @@ import {useUserStore} from '@stores/useUserStore.ts'
 const useLogin = async(token: string) => {
     if(token){
         // 存储token
-        localStorage.setItem('token',token)
+        // localStorage.setItem('token',token)
+        await useUserStore().isLogin(token)
         // 获取用户信息
         let res:any = await getInfo()
         // 保存用户信息到store

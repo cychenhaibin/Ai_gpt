@@ -228,6 +228,8 @@ export default request
 
 ### 五、扫码登录
 
+[扫码登录原理](https://www.bilibili.com/video/BV1jX4y1Q7Xg?spm_id_from=333.788.videopod.sections&amp;vd_source=9a5ba74ac5239c7e876e35b22f7f762a "扫码登录原理")
+
 请求后台获取微信登录的接口，拿到数据，传给微信登录对象
 
 当用户扫码成功，地址会发生改变（携带了token...信息）
@@ -449,6 +451,57 @@ Home.vue页面登录按钮根据用户不同的登录状态，显示不同的内
 ​            4.关闭/退出当前组件的时候
 
 ​        停止后可以重新获取二维码
+
+## 第七天
+
+### 十四、登录
+
+1. 如果用户没有登录，那么在进入一些页面的时候，应该弹出登录框
+
+   路由导航守卫中实现，判断用户的登录正泰，如果没有登录，就弹出弹出框
+
+   现在是用自定义属性控制组件的显示，接下来用插件实现这个功能
+
+2. 把登录框封装成插件
+
+   简单使用：loginDialogPlugin：index.ts 和 loginDialog.vue
+
+   index.ts
+
+   ```js
+   // 封装登录框逻辑
+   import {App} from 'vue'
+   const loginDialogPlugin = {
+       install:(app: App) => {
+           app.config.globalProperties.$showLoginDialog = () => {
+               alert(111)
+           }
+       }
+   }
+   export default loginDialogPlugin
+   ```
+
+   在main.ts中进行引入使用
+
+   真正的弹出登录框
+
+   ​		把之前登录框loginDialog.vue的内容全部复制到loginDialog.vue页面中
+
+3. 账号密码登录
+
+4. 调整用户的登录状态
+
+   1. 修改userUserStore.ts中的类型
+   2. 修改action中的方法
+   3. 修改hooks中useLogin.ts关于存token的内容
+   4. 修改请求拦截器中关于token的代码
+
+5. 判断用户登录状态显示登录框
+
+   1. 在router-index.ts中引入登录框插件以及绑定给router对象
+   2. 在guards.ts中引入router对象，接着判断用户的登录状态、以及用户要去的路由，最后显示登录框
+
+
 
 
 

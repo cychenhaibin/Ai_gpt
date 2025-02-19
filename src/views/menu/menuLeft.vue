@@ -3,6 +3,11 @@ import {ref} from "vue";
 import img1 from '@/assets/image/menu/dialogue.png'
 import img2 from '@/assets/image/menu/interview.png'
 import img3 from '@/assets/image/menu/programmer.png'
+import {useRouter} from "vue-router";
+let router = useRouter();
+const btn = () => {
+  router.push('/test')
+}
 const menuList = ref([
   {id:1,image:img1,text:'智能对话'},
   {id:1,image:img2,text:'模拟面试'},
@@ -21,7 +26,7 @@ const menuList = ref([
     </div>
   </div>
   <div class="menu-list">
-    <div class="menu-item" v-for="item in menuList" :key="item.id">
+    <div class="menu-item" v-for="item in menuList" :key="item.id" @click="btn">
       <img :src="item.image" alt="" />
       <p>{{item.text}}</p>
     </div>

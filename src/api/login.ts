@@ -16,3 +16,7 @@ export const loginVerification = (data: any) => {
 export const getLoginParam = () => {
     return http.get('api/xlx-sso/oauth/wechat/getLoginParam')
 }
+//账号密码登录
+export const userLogin = (data:any)=>{
+    return http.post('/api/xlx-sso/user/login',data)
+}

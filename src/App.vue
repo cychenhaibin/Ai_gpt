@@ -84,6 +84,7 @@ const userConfig = () => {
       bottom: 40px;
       text-align: center;
       .login-btn{
+        line-height: normal;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -109,7 +110,7 @@ const userConfig = () => {
       .tip {
         margin-bottom: 10px;
         color: #C90000;
-        font-size: 20px;
+        font-size: 18px;
       }
     }
   }

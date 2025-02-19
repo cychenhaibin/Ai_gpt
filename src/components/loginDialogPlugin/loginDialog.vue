@@ -32,22 +32,22 @@ const tabs = (item:any) => {
 </script>
 
 <template>
-<teleport to="body" v-if="isModal">
-  <div class="modal-backrop" @click="close"></div>
-  <div class="login">
-    <div class="top">
-      <div class="close" @click="close">
-        <img src="@/assets/image/login/exit.png" alt="" />
+  <teleport to="body">
+    <div class="modal-backrop" @click="close"></div>
+    <div class="login">
+      <div class="top">
+        <div class="close" @click="close">
+          <img src="@/assets/image/login/exit.png" alt="" />
+        </div>
+        <div class="tab">
+          <ul>
+            <li v-for="(item,index) in loginTabs" :key="item.id" @click="tabs(item)" :class="{ active: currentIndex === index }">{{item.name}}</li>
+          </ul>
+        </div>
       </div>
-      <div class="tab">
-        <ul>
-          <li v-for="(item,index) in loginTabs" :key="item.id" @click="tabs(item)" :class="{ active: currentIndex === index }">{{item.name}}</li>
-        </ul>
-      </div>
+      <component :is="comp"></component>
     </div>
-    <component :is="comp"></component>
-  </div>
-</teleport>
+  </teleport>
 </template>
 
 <style scoped>
@@ -101,7 +101,7 @@ ul li {
 .tab ul {
   display: flex;
   justify-content: space-between;
-  font-size: 18px;
+  font-size: 20px;
 }
 .tab ul li {
   list-style: none;
