@@ -98,7 +98,6 @@ const selectedPackage = reactive({})
 //立即购买的方法
 const showPayment = (item:Object)=>{
   isShow.value = true
-  item.id = 0
   //选中的商品信息
   Object.assign(selectedPackage,item)
   //默认微信支付
@@ -213,6 +212,7 @@ const closeTimer = ()=>{
 //关闭组件，同时关闭定时器
 const hidePayment = ()=>{
   isShow.value = false
+  paymentActive.value = 0
   closeTimer()
 }
 </script>
