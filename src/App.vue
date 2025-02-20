@@ -29,6 +29,13 @@ const loginOut = () => {
 // 账号设置
 const userConfig = () => {
   router.push('/userConfig')
+  isShow.value = false
+}
+import {getCurrentInstance,ComponentInstance} from "vue";
+let {proxy} = getCurrentInstance() as ComponentInstance;
+
+const login = ()=>{
+  proxy.$showLoginDialog()
 }
 </script>
 
@@ -53,7 +60,7 @@ const userConfig = () => {
 
       <div class="login" v-else>
         <div class="tip">隐私政策</div>
-        <div class="login-btn" @click="showIsModal">
+        <div class="login-btn" @click="login">
           <img src="@image/login/p.png" alt=""/>
           <span>登 录</span>
         </div>
@@ -62,7 +69,7 @@ const userConfig = () => {
     </div>
     <div class="right">
       <router-view />
-      <loginModal :isModal="isModal" @update:isModal="isModal=$event"></loginModal>
+<!--      <loginModal :isModal="isModal" @update:isModal="isModal=$event"></loginModal>-->
     </div>
   </div>
 </template>

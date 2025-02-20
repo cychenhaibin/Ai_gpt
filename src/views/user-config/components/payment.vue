@@ -2,7 +2,7 @@
   <div class="give">
     <div class="content">
       <div class="give_title">
-        <h4>额度介绍</h4>
+        <p>额度介绍</p>
       </div>
       <!-- 额度列表，循环展示每个充值套餐 -->
       <div class="list">
@@ -219,8 +219,10 @@ const hidePayment = ()=>{
 
 <style lang="scss" scoped>
 .give {
+  height: 520px;
+  overflow-y: scroll;
   width: 100%;
-  padding: 21px 47px 40px;
+  padding: 21px 15px 40px;
   background: #fff;
   border-radius: .5vw;
   box-sizing: border-box;
@@ -229,10 +231,10 @@ const hidePayment = ()=>{
     flex: 1;
 
     .give_title {
+      margin-left: 15px;
 
-
-      h4 {
-        font-size: 18px;
+      p {
+        font-size: 20px;
         font-weight: bold;
         color:#232323;
       }
@@ -242,14 +244,13 @@ const hidePayment = ()=>{
       display: flex;
       flex-wrap: wrap;
       // justify-content: space-between;
-
       .list_item {
         flex: 0 0 25%;
         height: 15vw;
         padding: 0 1vw 1vw 1vw;
         box-sizing: border-box;
         display: flex;
-
+        margin-bottom: 15px;
         .list_content {
           flex: 1;
           position: relative;
@@ -351,8 +352,8 @@ const hidePayment = ()=>{
         justify-content: right;
 
         .exit-btn {
-          width: 2vw;
-          height: 2vw;
+          width: 18px;
+          height: 18px;
           cursor: pointer;
 
           img {

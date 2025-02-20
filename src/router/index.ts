@@ -4,7 +4,7 @@ import Home from '../views/home/Home.vue'
 import { RoutesArray } from './routes.ts'
 import { beforeEach, afterEach } from './guards.ts'
 import {createApp } from 'vue'
-import loginDialogPlugin from "@components/loginDialogPlugin/index.ts";
+import loginDialogPlugin from "@plugin/loginDialogPlugin/index.ts";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: RoutesArray,

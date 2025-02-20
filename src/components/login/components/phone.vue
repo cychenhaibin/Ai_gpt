@@ -54,6 +54,7 @@ const onJudge = async (left:any)=> {
   slideShow.value = false
 }
 import {useUserStore} from "@stores/useUserStore.ts";
+import router from "@router";
 let userStore = useUserStore();
 // 登录
 const login = async () => {
@@ -73,7 +74,7 @@ const login = async () => {
       message: res.errorMessage,
       type: 'success',
     })
-
+    router.app.config.globalProperties.$hideLoginDialog()
   }
 }
 

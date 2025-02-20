@@ -1,6 +1,6 @@
 # AiGPT
 
-# 第一天
+## 第一天
 
 ### 一、布局
 
@@ -139,7 +139,7 @@ export default request
 
             创建接口api文件，目的解耦
 
-# 第二天
+## 第二天
 
 ### 四、验证码登录
 
@@ -224,7 +224,7 @@ export default request
       3. 把script标签加到body里
       4. 实例化 微信登录 的对象
 
-# 第三天
+## 第三天
 
 ### 五、扫码登录
 
@@ -326,7 +326,7 @@ ts配置
    }
    ```
 
-# 第四天
+## 第四天
 
 ### 八、登录后的操作
 
@@ -356,7 +356,7 @@ Home.vue页面登录按钮根据用户不同的登录状态，显示不同的内
 
 退出登录的 按钮的事件
 
-# 第五天
+## 第五天
 
 ### 十一、账号设置里的支付
 
@@ -500,6 +500,85 @@ Home.vue页面登录按钮根据用户不同的登录状态，显示不同的内
 
    1. 在router-index.ts中引入登录框插件以及绑定给router对象
    2. 在guards.ts中引入router对象，接着判断用户的登录状态、以及用户要去的路由，最后显示登录框
+
+## 第八天
+
+### 十五、添加隐藏登录框的方法
+
+​    在 登录成功后 调用隐藏方法（hooks）
+
+​    问题：叉号关闭 解决：
+
+```js
+import router from '@router'
+const close = ()=>{
+	router.app.config.globalProperties.$hideLoginDialog()
+}
+```
+
+### 十六、调整 微信扫码登录 的变量设置
+
+### 十七、整理目录
+
+       1. 原components - login - components中的三个文件，直接放进上级目录中
+
+​	   删除 components 和 loginModal.vue
+
+​       注意：修改lognDialog.vue中对应文件的引入
+
+    2. 修改 App.vue 页面中登录按钮的事件
+
+        1. 因为登录框已经做了封装，所以原来调用登录框的方法都作废
+
+        2. 删掉原引入的登录框组件、给登录按钮添加点击事件
+
+        3. 引入vue实例然后通过实例调用$showLoginDialog()
+
+           ```js
+           import {getCurrentInstance,ComponentInternalInstance} from 'vue'
+           let { proxy } = getCurrentInstance() as ComponentInternalInstance
+           const login = ()=>{
+               proxy.$showLoginDialog()
+           }
+           ```
+
+    3. 调整App.vue页面的内容
+
+        把登录结构部分全部复制到menuLeft.vue中
+
+        再把相关的JS和CSS也复制过来
+
+### 十八、账户功能
+
+​    【添加额度】
+
+​    【充值页面，用户充值成功后，跳转到 账户 页面进行显示】
+
+1. 写请求的接口
+
+2. 发送请求，并渲染数据
+
+   ```js
+   //用户账户总额度
+   let AccountQuota = reactive<Partial<IaccountQuotaData>>({})
+   //用户明细
+   let accountList = ref<IAccountItem[]>([])
+   onMounted(async()=>{
+       //请求用户账户总额度
+       let res = await getAccountQuota()
+       console.log( '用户账户总额度查询',res )
+       Object.assign(AccountQuota,res.data)
+       //请求用户明细
+       let listRes = await getAccount({
+           page:1,
+           pagesize:100
+       })
+       console.log( '用户明细',listRes )
+       accountList.value = listRes.data.items
+   })
+   ```
+
+3. 虚拟列表
 
 
 

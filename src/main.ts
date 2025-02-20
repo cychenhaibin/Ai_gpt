@@ -11,7 +11,7 @@ const store = createPinia()
 store.use(PiniaPluginPersist)
 
 // 引入登录框插件
-import loginDialogPlugin from "./components/loginDialogPlugin/index.ts";
+import loginDialogPlugin from "@plugin/loginDialogPlugin/index.ts";
 
 const app = createApp(App)
 

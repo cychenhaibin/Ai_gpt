@@ -3,6 +3,7 @@ import {ref,defineProps,defineEmits} from 'vue'
 import wechat from '@components/login/components/wechat.vue'
 import phone from '@components/login/components/phone.vue'
 import password from '@components/login/components/password.vue'
+import router from "@router";
 
 const props = defineProps ({
   isModal:{
@@ -12,7 +13,8 @@ const props = defineProps ({
 })
 const emit = defineEmits(['update:isModal'])
 const close = () => {
-  emit('update:isModal', !props.isModal)
+  // emit('update:isModal', !props.isModal)
+  router.app.config.globalProperties.$hideLoginDialog()
 }
 let loginTabs = ref([
   {id:0,name:'扫码登录',label:wechat},
@@ -37,7 +39,7 @@ const tabs = (item:any) => {
     <div class="login">
       <div class="top">
         <div class="close" @click="close">
-          <img src="@/assets/image/login/exit.png" alt="" />
+          <img src="../../assets/image/login/exit.png" alt="" />
         </div>
         <div class="tab">
           <ul>

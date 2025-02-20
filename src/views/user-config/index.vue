@@ -15,7 +15,7 @@
       </div>
     </div>
     <!-- 动态组件 -->
-    <component :is="comp"></component>
+    <component :is="comp" @click="handleClick"></component>
   </div>
 </template>
 
@@ -29,14 +29,19 @@ const rechargeList = ref([
   {id:'1',text:'总览',comp:overview},
   {id:'2',text:'账户',comp:accountInfo},
   {id:'3',text:'充值',comp:payMent}
-
 ])
-const rechargeIndex = ref('1')
-const comp = ref(overview)
+const rechargeIndex:any = ref('1')
+const comp:any = ref(overview)
 const setRechargeMethod = (item:Object) =>{
   comp.value = item.comp
   rechargeIndex.value = item.id
 }
+const handleClick = (index:string) => {
+  const targetComp:any = rechargeList.value.find(item => item.id === index)?.comp;
+  comp.value = targetComp
+  rechargeIndex.value = index
+}
+
 </script>
 
 <style lang="scss">
@@ -45,11 +50,12 @@ const setRechargeMethod = (item:Object) =>{
   height: 100vh;
   overflow: hidden;
   background-color: #F2F2F2;
-  padding: 38px 48px;
+  padding: 10px 48px;
   font-family: Microsoft YaHei, Microsoft YaHei;
 
   .title {
     font-size: 25px;
+    font-weight: normal;
     color: #232323;
     position: relative;
     padding-left: 16px;
@@ -92,7 +98,7 @@ const setRechargeMethod = (item:Object) =>{
       justify-content: left;
       font-size: 18px;
       color: #232323;
-      margin: 38px 90px 30px 0;
+      margin: 25px 90px 25px 0;
 
       &.active {
         color: #C90000;

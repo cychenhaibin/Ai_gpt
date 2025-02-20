@@ -33,6 +33,7 @@ import {ElMessage} from 'element-plus'
 
 import { userLogin } from '@api/login'
 import useLogin from '@hooks/useLogin'
+import router from "@router";
 
 const loginFormRef = ref()
 // 登录表单值
@@ -65,13 +66,13 @@ const userBtn = async (formEl: any) => {
   await formEl.validate(async (valid, fields) => {
     if (valid) {
       //发送请求提示信息
-      let res = await userLogin(loginForm)
-      console.log( '张密登录',res )
+      let res:any = await userLogin(loginForm)
       if( res.code == 0 ){
         ElMessage({
           message: res.errorMessage,
           type: 'success',
         })
+        router.app.config.globalProperties.$hideLoginDialog()
         // ElNotification({
         //   showClose:true,
         //   message:res.errorMessage,

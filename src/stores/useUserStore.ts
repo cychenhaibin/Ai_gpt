@@ -15,7 +15,8 @@ export const useUserStore = defineStore('storeId',  {
     }=>{
         return {
             userInfo:{},
-            userState:false
+            userState:false,
+            token:''
         }
     },
     actions:{
@@ -25,7 +26,7 @@ export const useUserStore = defineStore('storeId',  {
             }
         },
         setUserInfo(info:IUserInfo){
-            if (token){
+            if (this.token){
                 this.userInfo = info;
                 this.userState = true
             }

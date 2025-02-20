@@ -30,6 +30,7 @@ export default defineConfig({
       '@api': fileURLToPath(new URL('./src/api', import.meta.url)),
       '@image': fileURLToPath(new URL('./src/assets/image', import.meta.url)),
       '@hooks': fileURLToPath(new URL('./src/hooks', import.meta.url)),
+      '@plugin': fileURLToPath(new URL('./src/plugin', import.meta.url)),
     },
   },
   server: {
