@@ -15,7 +15,7 @@
       </div>
     </div>
     <!-- 动态组件 -->
-    <component :is="comp" @click="handleClick"></component>
+    <component :is="comp" @handle-click="handleClick"></component>
   </div>
 </template>
 

@@ -20,11 +20,11 @@
             <h2 class="t1">记录</h2>
             <div class="scroll" ref="scrollRef">
                 <!-- :style="{height: itemHeight * accountList.length + 'px'}" -->
-                <div class=""></div>
+                <div class="" :style="{height: itemHeight * accountList.length + 'px'}"></div>
                 <!-- :style="{top: top + 'px'}" -->
-                <div class="list-wrapper" >
+                <div class="list-wrapper" :style="{top: top + 'px'}">
                     <!--  :style="{height: itemHeight + 'px'}" -->
-                    <div class="item" v-for="item in accountList" :key="item.id">
+                    <div class="item" v-for="item in showList" :key="item.id" :style="{height: itemHeight + 'px'}">
                         <span> {{item.serialNumber}} </span>
                         <span> {{item.consumption}} </span>
                         <span> {{item.updated}} </span>
@@ -45,6 +45,15 @@ import router from "@router";
 let AccountQuota = reactive({})
 //用户明细
 let accountList = ref([])
+// 列表每一项的高度
+let itemHeight = ref<number>(50);
+// 当前滚动的距离
+let top = ref<number>(0)
+// 列表项的数量
+let showNum = ref(0)
+let scrollRef = ref<HTMLElement | null>(null)
+// 存储当前列表展示的列表项
+let showList = ref([])
 //模拟的数据
 let moniRes = ref([])
 onMounted(async()=>{
@@ -58,7 +67,7 @@ onMounted(async()=>{
         remarks:`备注信息：${index + 1}`
     }))
     //请求用户账户总额度
-    let res = await getAccountQuota()
+    let res:any = await getAccountQuota()
     console.log( '用户账户总额度查询',res )
     Object.assign(AccountQuota,res.data)
     //请求用户明细
@@ -66,15 +75,25 @@ onMounted(async()=>{
         page:1,
         pagesize:100
     })
-    console.log( '用户明细',listRes )
     // accountList.value = listRes.data.items
     accountList.value = moniRes.value
-
+    // 计算可视区域类列表项的数量
+    showNum.value = Math.ceil(parseFloat(window.getComputedStyle(scrollRef.value).getPropertyValue('height')) / itemHeight.value)
+    // 初始化渲染列表.
+    showList.value = accountList.value.slice(0, showNum.value)
+    // 监听列表的滚动事件
+    scrollRef.value?.addEventListener('scroll',handleScroll)
 })
+const handleScroll = (e:Event) => {
+    let startIndex = Math.max(Math.floor(e.target.scrollTop / itemHeight.value), 0)
+    let endIndex = Math.min(startIndex + showNum.value, accountList.value.length)
+    showList.value = accountList.value.slice(startIndex, endIndex)
+    top.value = startIndex * itemHeight.value
+}
 
-const emits = defineEmits(["click"])
+const emits = defineEmits(["handle-click"])
 const add = () => {
-  emits("click",'3')
+  emits("handle-click",'3')
 }
 
 
@@ -146,10 +165,12 @@ const add = () => {
         overflow-y: scroll;
     }
     .list-wrapper{
+        width: 100%;
         position: absolute;
         left: 0;
         .item{
             display: flex;
+            justify-content: space-around ;
             align-items: center;
         }
     }
