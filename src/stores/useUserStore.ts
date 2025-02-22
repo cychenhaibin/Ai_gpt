@@ -1,17 +1,15 @@
 import { defineStore } from 'pinia'
-interface IUserInfo{
-    created:null | string;
-    isWechat:'0' | '1';
-    logo:string;
-    mobile:string;
-    nickName:string;
-    sex:string;
-    userId:Number;
-}
-export const useUserStore = defineStore('storeId',  {
+
+
+import {getInfo} from '@api/user'
+
+import router from '@router'
+
+export const useUserStore = defineStore('storeId', {
     state:():{
-        userInfo:Partial<IUserInfo>
-        userState:boolean,
+        userInfo:any;
+        userState:any
+        token:any
     }=>{
         return {
             userInfo:{},
@@ -25,24 +23,30 @@ export const useUserStore = defineStore('storeId',  {
                 this.token = token
             }
         },
-        setUserInfo(info:IUserInfo){
-            if (this.token){
-                this.userInfo = info;
+        setUserInfo(info:any){
+            if(this.token){
+                this.userInfo = info
                 this.userState = true
             }
         },
+        // 退出登录
         removeUserInfo(){
-            this.userInfo = {};
+            this.userInfo = {}
             this.userState = false
             this.token = ''
+            router.replace({path:'/'})
+        },
+        async getInfo(){
+            let res:any = await getInfo()
+            this.setUserInfo(res.data)
         }
     },
     persist:{
         enabled:true,
         strategies: [
             {
-                storage: localStorage,
-                path: ['userInfo', 'userState', 'token'],
+                storage: localStorage, //默认是session
+                paths: ['userInfo','token','userState']
             }
         ]
     }

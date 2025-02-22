@@ -40,10 +40,11 @@ const close = () => {
     opacity: .7;
 }
 .container{
-    width: 615px;
-    height: 590px;
+    width: 350px;
+    height: fit-content;
+    padding: 0 35px 30px;
     background: #FFFFFF;
-    border-radius: 40px 40px 40px 40px;
+    border-radius: 12px 12px 12px 12px;
     position: absolute;
     z-index: 100000;
     left: 50%;
@@ -51,16 +52,16 @@ const close = () => {
     transform: translate(-50%, -50%);
     .exit {
         width: 100%;
-        height: 75px;
+        height: 50px;
         display: flex;
         align-items: center;
         justify-content: right;
 
         .exit-btn {
-            width: 25px;
-            height: 25px;
+            width: 18px;
+            height: 18px;
             cursor: pointer;
-            margin-right: 38px;
+            //margin-right: 20px;
 
             img {
                 width: 100%;
@@ -69,9 +70,8 @@ const close = () => {
         }
     }
     footer{
-        position: absolute;
-        bottom: 20px;
-        right: 20px;
+        display: flex;
+        justify-content: flex-end;
     }
 }
 </style>
