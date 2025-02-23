@@ -52,7 +52,7 @@
     
     <!--  换wx -->
     <AIdialog v-model:dialogVisible="dialogVisible" @close="close">
-        <div id="code"></div>
+        <div id="codewx"></div>
     </AIdialog>
 <!--    换手机号-->
   <AIdialog v-model:dialogVisible="phoneDialogShow">
@@ -177,12 +177,11 @@ const openDialog = async () => {
    scDom.onload = async ()=> {
        // 参数进行说明，对照wx官方文档
        let res:any = await getLoginParam()
-       console.log(res)
    //    if(res.code != 0) return
    let { appid, redirectUri, scope, state } = res.data
        var obj = new WxLogin({
            // self_redirect:true,
-           id: "code", 
+           id: "codewx",
            appid,  
            scope, 
            redirect_uri: decodeURIComponent(redirectUri),
@@ -301,21 +300,6 @@ const onJudge = async (left:any) => {
   }
   slideShow.value = false
 }
-// const onJudge = async (left:any)=> {
-//   let res:any = await verifyImageCode({
-//     movePosX:left,
-//     phone:phone.value
-//   })
-//   if(res.code !== 0) {
-//     ElMessage({
-//       message: res.errorMessage,
-//       type: 'error',
-//     })
-//     return getImgCode()
-//   }
-//   slideShow.value = false
-// }
-
 //修改手机号
 const submitCode = async ()=>{
   let res:any = await modifyPhone(phone.value,msgCodeTel.value)
@@ -340,6 +324,11 @@ const logoutSubmit = async ()=>{
 
 </script>
 <style scoped lang="scss">
+#codewx{
+  display: flex;
+  justify-content: center;
+  height: 250px!important;
+}
 .model-one {
   border: 1px solid #ccc;
   border-radius: 12px;
