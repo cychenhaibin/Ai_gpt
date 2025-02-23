@@ -24,7 +24,7 @@
                 <div class="binding-option">
                   <img src="@image/recharge/Bind-phone.png" alt="更改密码">
                   <p>{{`绑定手机号：${userStore.userInfo.mobile}`}}</p>
-                  <p class="binding-operate" @click="passwordDialogShow = true">更换</p>
+                  <p class="binding-operate" @click="phoneDialogShow = true">更换</p>
                 </div>
               </div>
             </div>
@@ -54,6 +54,39 @@
     <AIdialog v-model:dialogVisible="dialogVisible" @close="close">
         <div id="code"></div>
     </AIdialog>
+<!--    换手机号-->
+  <AIdialog v-model:dialogVisible="phoneDialogShow">
+    <div>
+      <div class="identify">修改手机号</div>
+      <div class="explain">
+        <p>为了保护您得账号安全，请验证身份 验证成功后进行下一步操作</p>
+      </div>
+      <div id="code">
+        使用手机号：{{userStore.userInfo.mobile}}
+      </div>
+      <div>
+        <div class="msgCode password">
+          <input type="text" v-model="phone" class="msgCode-input" placeholder="输入新手机号" />
+        </div>
+        <div class="msgCode tel">
+          <input type="text" v-model="msgCodeTel" class="msgCode-input" placeholder="短信验证码" />
+          <button @click="btn">发送验证码</button>
+        </div>
+        <el-button @click="submitCode" class="checkCode">验 证</el-button>
+      </div>
+    </div>
+    <div class="slideSplit" v-if="slideShow">
+      <SlideSplit :w="slideInfo.bigWidth"
+                  :h="slideInfo.bigHeight"
+                  :l="slideInfo.smallWidth"
+                  :bigImg="slideInfo.bigImageBase64"
+                  :smImg="slideInfo.smallImageBase64"
+                  :smallHeight="slideInfo.smallHeight"
+                  @sliderJudge="onJudge"
+                  @request-event="getImgCode"
+      ></SlideSplit>
+    </div>
+  </AIdialog>
     <!-- 换密码 -->
     <AIdialog v-model:dialogVisible="passwordDialogShow">
         <div v-show="!showCode">
@@ -107,12 +140,19 @@
 </div>
 </template>
 <script setup lang="ts">
-import { getLoginParam } from '@api/login'
-import { loginReginfoHead,sendCheckCode,modifyPasswordVerification,modifyPassword,userLogout } from '@api/user'
-
-import {  ref, onUnmounted  } from 'vue';
+import {getLoginParam, getImageCode, verifyImageCode} from '@api/login'
+import {
+  loginReginfoHead,
+  sendCheckCode,
+  modifyPasswordVerification,
+  modifyPassword,
+  userLogout,
+  modifyPhone, sendModifyphoneCheckCode
+} from '@api/user'
+import {ref, onUnmounted, reactive} from 'vue';
 import { useUserStore } from '@/stores/useUserStore'
 import {ElMessage} from "element-plus";
+import SlideSplit from '@components/login/SlideSplit/index.vue'
 // import Password from '@/components/comp/password.vue';
 
 const userStore = useUserStore()
@@ -171,7 +211,7 @@ const selectImage = ()=>{
 const uploadImage =async (e:Event)=>{
     let formData = new FormData()
     formData.append('file',avatarInput.value.files[0])
-    let res = await loginReginfoHead(formData)
+    let res:any = await loginReginfoHead(formData)
     if( res.code == 0 ){
         userStore.getInfo()
     }
@@ -180,13 +220,17 @@ const uploadImage =async (e:Event)=>{
 //修改密码
 const passwordDialogShow = ref<boolean>(false)
 const msgCode = ref<string>('')
+const phoneDialogShow = ref<boolean>(false)
 const password = ref<string>('')
 const againPassword = ref<string>('')
+const phone = ref<string>('')
+// const verificationCode = ref<string>('')
+const msgCodeTel = ref<string>('')
 // const passwordDialogShow = ()=>{
 
 // }
 const showCode = ref(false)
-//发送验证码
+//发送验证码（密码）
 const sendCode = async ()=>{
     let res:any = await sendCheckCode()
     if(res.code == 0){
@@ -202,15 +246,86 @@ const checkCode = async ()=>{
       showCode.value = true
     }
 }
-//修改
+//修改密码
 const submit = async ()=>{
     if( password.value === againPassword.value ){
-        let res = await modifyPassword(password.value,password.value)
+        let res:any = await modifyPassword(password.value,password.value)
         console.log('是否修改成功',res)
         if( res.code == 0 ){
             passwordDialogShow.value = false
+            ElMessage.success('修改成功')
+        }else {
+            ElMessage.warning(res.errorMessage)
         }
     }
+}
+
+//发送验证码（手机号）
+let slideShow = ref(false)
+let slideInfo = reactive({
+  bigImageBase64:'',
+  smallImageBase64:'',
+  bigHeight: 0,
+  bigWidth: 0,
+  smallWidth: 0,
+  smallHeight: 0,
+
+})
+// 获取验证码图像
+const getImgCode = async () => {
+  let res:any = await getImageCode({
+    phone:phone.value,
+  })
+  if(res.code === 0){
+    Object.assign(slideInfo,res.data)
+  }else {
+    ElMessage({
+      message: res.errorMessage,
+      type: 'error',
+    })
+  }
+}
+const btn = async () =>{
+  await getImgCode()
+  if (phone.value !== ''){
+    slideShow.value = true
+  }
+}
+const onJudge = async (left:any) => {
+  let res:any = await sendModifyphoneCheckCode(phone.value,left)
+  if(res.code == 0){
+    ElMessage.success('验证码已发送')
+  } else {
+    ElMessage.warning(res.errorMessage)
+    return getImgCode()
+  }
+  slideShow.value = false
+}
+// const onJudge = async (left:any)=> {
+//   let res:any = await verifyImageCode({
+//     movePosX:left,
+//     phone:phone.value
+//   })
+//   if(res.code !== 0) {
+//     ElMessage({
+//       message: res.errorMessage,
+//       type: 'error',
+//     })
+//     return getImgCode()
+//   }
+//   slideShow.value = false
+// }
+
+//修改手机号
+const submitCode = async ()=>{
+  let res:any = await modifyPhone(phone.value,msgCodeTel.value)
+  if( res.code == 0 ){
+    phoneDialogShow.value = false
+    ElMessage.success('修改成功')
+    userStore.getInfo()
+  }else{
+    ElMessage.warning(res.errorMessage)
+  }
 }
 
 //注销
@@ -346,5 +461,14 @@ const logoutSubmit = async ()=>{
   color: #C90000;
   cursor: pointer;
   font-size: 14px;
+}
+.slideSplit {
+  position: fixed;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  background: rgba(250,240,240,.8);
+  border-radius: 8px;
+  padding: 30px;
 }
 </style>

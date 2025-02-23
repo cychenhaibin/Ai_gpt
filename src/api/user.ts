@@ -31,3 +31,11 @@ export const modifyPassword = (password:string,repassword:string)=>{
 export const userLogout = ()=>{
     return http.get('/api/xlx-sso/user/logout')
 }
+//修改手机号发送验证码
+export const sendModifyphoneCheckCode = (phone:string,movePosX:any)=>{
+    return http.get(`/api/xlx-sso/user/sendModifyphoneCheckCode?phone=${phone}&movePosX=${movePosX}`)
+}
+//修改手机号
+export const modifyPhone = (phone:string,verificationCode:string)=>{
+    return http.post('/api/xlx-sso/user/modifyphone',{phone,verificationCode})
+}

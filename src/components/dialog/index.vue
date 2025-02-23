@@ -36,7 +36,7 @@ const close = () => {
     bottom: 0;
     left: 0;
     z-index: 1040;
-    background-color: #000;
+    background-color: #323232;
     opacity: .7;
 }
 .container{
