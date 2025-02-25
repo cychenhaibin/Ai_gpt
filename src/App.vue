@@ -37,6 +37,9 @@ let {proxy} = getCurrentInstance() as ComponentInstance;
 const login = ()=>{
   proxy.$showLoginDialog()
 }
+
+// 引入按钮右侧
+import menuRight from './views/menu/menuRight.vue'
 </script>
 
 <template>
@@ -67,6 +70,7 @@ const login = ()=>{
       </div>
 
     </div>
+    <menuRight></menuRight>
     <div class="right">
       <router-view />
 <!--      <loginModal :isModal="isModal" @update:isModal="isModal=$event"></loginModal>-->
