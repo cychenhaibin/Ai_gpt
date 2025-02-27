@@ -1,6 +1,6 @@
 <template>
   <div class="chat">
-    <div class="chat-content">
+    <div class="chat-content" ref="chatContent">
       <!-- 实时对话 -->
       <div class="chat-dialog" v-for="(item,index) in newMessageList" :key="index">
         <div class="chat-head">
@@ -145,6 +145,7 @@ const initEventSource = async ()=>{
         const content = parseData.content
         //把内容读取到一起
         newMessageList.value[len].content += content.replace(newMessageList.value[len].content,'')
+        scrollBottom()
       }catch(e){
         console.log(e)
       }
@@ -158,7 +159,12 @@ const renderMarkdown = (text:any)=>{
   //使用md转换html
   return md.render(text)
 }
-
+const chatContent = ref(null)
+const scrollBottom = () => {
+  if(chatContent.value){
+    chatContent.value.scrollTop = chatContent.value.scrollHeight
+  }
+}
 </script>
 
 <style lang="scss" scoped>
