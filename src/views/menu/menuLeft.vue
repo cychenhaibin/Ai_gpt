@@ -5,10 +5,14 @@ import img2 from '@/assets/image/menu/interview.png'
 import img3 from '@/assets/image/menu/programmer.png'
 import {useRouter} from "vue-router";
 let router = useRouter();
-let selectedId = ref(0)
+import { useChatStore } from '@/stores/useChatStore'
+let useChat = useChatStore()
 const btn = (id:number) => {
-  router.push('/test')
-  selectedId.value = id
+  if(id) useChat.menuId = id
+  useChat.isMenuRightOpen = true
+  router.push({
+    path:'/chat'
+  })
 }
 const menuList = ref([
   {id:1,image:img1,text:'智能对话'},

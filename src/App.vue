@@ -83,6 +83,7 @@ import menuRight from './views/menu/menuRight.vue'
   display: flex;
   width: 100vw;
   height: 100vh;
+  background: #f2f2f2;
   .left {
     display: flex;
     justify-content: center;

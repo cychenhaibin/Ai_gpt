@@ -1,6 +1,16 @@
 <template>
   <div class="chat">
     <div class="chat-content" ref="chatContent">
+      <!-- 聊天记录（历史数据） -->
+      <div class="chat-dialog" v-for="item in dialogueDate" :key="item.id">
+        <div class="chat-head">
+          <img :src="item.role === 'user' ? logo : img" alt="">
+        </div>
+        <div class="chat-message" :style="{'background-color':item.role=='user' ? '#f6e5db' :'#ffffff'}">
+          <div class="message-item" v-if="item.role === 'user'">{{ item.content }}</div>
+          <div class="message-item" v-if="item.role === 'system'" v-html="renderMarkdown(item.content)"></div>
+        </div>
+      </div>
       <!-- 实时对话 -->
       <div class="chat-dialog" v-for="(item,index) in newMessageList" :key="index">
         <div class="chat-head">
@@ -31,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import {onBeforeMount, ref} from 'vue'
+import {nextTick, onBeforeMount, ref, watch} from 'vue'
 let messages = ref('')
 const compsing = ref(false)
 const handleStart = ()=>{
@@ -46,16 +56,6 @@ const handleEnd = ()=>{
 const handleEnter = ()=>{
   if( !compsing.value ){
     console.log('发送消息')
-    let len = newMessageList.value.length
-    newMessageList.value[len] = {
-      role:'user',
-      content:messages.value,
-      contentType:'text'
-    }
-    //把输入框清空
-    messages.value = ''
-    //返回消息
-    initEventSource()
   }
 }
 interface INewMessage{
@@ -70,16 +70,16 @@ const {userId,logo} = store.userInfo
 import img from '@/assets/lll.png'
 //会话id
 let id = ref(0)
-import {chatSave} from '@api/chat'
+import {chatSave,IChatMessageItem,chatMessageList} from '@api/chat'
 //获取会话id
 onBeforeMount(async()=>{
-  let res = await chatSave({
-    userId,
-    type:1
-  })
-  console.log('会话id',res)
-  let {chatId} = res.data
-  id.value = chatId
+  // let res = await chatSave({
+  //     userId,
+  //     type:1
+  // })
+  // console.log('会话id',res)
+  // let {chatId} = res.data
+  // id.value = chatId
 })
 //发送消息
 const newMessageList = ref<INewMessage[]>([])
@@ -145,11 +145,11 @@ const initEventSource = async ()=>{
         const content = parseData.content
         //把内容读取到一起
         newMessageList.value[len].content += content.replace(newMessageList.value[len].content,'')
+        //滚动高度
         scrollBottom()
-      }catch(e){
-        console.log(e)
+      }catch(err){
+        console.log(err)
       }
-      console.log(newMessageList.value)
     }
   }
 }
@@ -159,12 +159,35 @@ const renderMarkdown = (text:any)=>{
   //使用md转换html
   return md.render(text)
 }
-const chatContent = ref(null)
-const scrollBottom = () => {
-  if(chatContent.value){
-    chatContent.value.scrollTop = chatContent.value.scrollHeight
-  }
+
+//滚动高度
+let chatContent = ref(null)
+const scrollBottom = () =>{
+  nextTick(()=>{
+    if( chatContent.value ){
+      chatContent.value.scrollTop = chatContent.value.scrollHeight
+    }
+  })
 }
+import {useRoute} from 'vue-router'
+let route = useRoute()
+let dialogueDate = ref([])
+const getChatMessageList =async (id)=>{
+  let res = await chatMessageList({
+    chatId:id
+  })
+  console.log( '历史',res )
+  dialogueDate.value = res.data
+  scrollBottom()
+}
+//监听路由的变化，然后请求到对应的聊天记录
+watch(route,()=>{
+  // console.log(666666666666666,route.query.id)
+  id.value = route.query.id
+  newMessageList.value = []
+  getChatMessageList(id.value)
+},{immediate:true})
+
 </script>
 
 <style lang="scss" scoped>
@@ -208,8 +231,8 @@ const scrollBottom = () => {
           left: 50%;
           transform: translate(-50%,-50%);
           right: 10px;
-          width: 22px;
-          height: 20px;
+          width: 1.5vw;
+          height: 1.5vw;
         }
       }
     }
