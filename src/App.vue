@@ -2,8 +2,7 @@
 import loginModal from '@components/login/loginModal.vue'
 import {ref,onMounted,watch} from 'vue'
 import {getInfo} from '@api/user.ts'
-import {useUserStore} from '@stores/useUserStore.ts'
-let userStore = useUserStore()
+
 import useLogin from '@hooks/useLogin.ts'
 import MenuLeft from "@views/menu/menuLeft.vue";
 import {useRouter} from 'vue-router'
@@ -20,24 +19,6 @@ watch(() => window.location.href,async (newUrl, oldUrl)=>{
   useLogin(token)
 },{immediate:true})
 
-let isShow = ref(false)
-
-const loginOut = () => {
-  userStore.removeUserInfo()
-  router.push('/')
-}
-// 账号设置
-const userConfig = () => {
-  router.push('/userConfig')
-  isShow.value = false
-}
-import {getCurrentInstance,ComponentInstance} from "vue";
-let {proxy} = getCurrentInstance() as ComponentInstance;
-
-const login = ()=>{
-  proxy.$showLoginDialog()
-}
-
 // 引入按钮右侧
 import menuRight from './views/menu/menuRight.vue'
 </script>
@@ -46,29 +27,6 @@ import menuRight from './views/menu/menuRight.vue'
   <div class="container">
     <div class="left">
       <menu-left></menu-left>
-      <!--      登录状态-->
-      <div class="login" v-if="userStore.userState">
-        <div class="tip">隐私政策</div>
-        <div class="login-btn" @click="isShow = true">
-          <img :src="userStore.userInfo.logo" alt=""/>
-          <span>{{ userStore.userInfo.nickName }}</span>
-        </div>
-
-        <div class="loginList" v-show="isShow">
-          <div class="setting" @click="userConfig">账号设置</div>
-          <div class="exit" @click="loginOut">退出登录</div>
-        </div>
-
-      </div>
-
-      <div class="login" v-else>
-        <div class="tip">隐私政策</div>
-        <div class="login-btn" @click="login">
-          <img src="@image/login/p.png" alt=""/>
-          <span>登 录</span>
-        </div>
-      </div>
-
     </div>
     <menuRight></menuRight>
     <div class="right">
@@ -90,41 +48,7 @@ import menuRight from './views/menu/menuRight.vue'
     width: 200px;
     height: 100vh;
     background: #ffffff;
-    .login {
-      cursor: pointer;
-      position: absolute;
-      bottom: 40px;
-      text-align: center;
-      .login-btn{
-        line-height: normal;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 150px;
-        height: 40px;
-        color: #fff;
-        border-radius: 24px;
-        background: #C90000;
-        img{
-          width: 30px;
-          height: 30px;
-          border-radius: 50%;
-        }
-        span{
-          margin-left: 10px;
-          font-weight: 400;
-          color: #fff;
-          text-align: center;
-          font-size: 20px;
-        }
-      }
-      .tip {
-        margin-bottom: 10px;
-        color: #C90000;
-        font-size: 18px;
-      }
-    }
+
   }
   .right {
     flex: 1;
