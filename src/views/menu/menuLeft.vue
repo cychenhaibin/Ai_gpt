@@ -171,4 +171,24 @@ const login = ()=>{
     font-size: 18px;
   }
 }
+.loginList {
+  position: absolute;
+  top: 25px;
+  left:180px;
+  width: 120px;
+  height: 80px;
+  background: #C90000;
+  border-radius: 12px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  .setting{
+    cursor: pointer;
+  }
+  .exit{
+    cursor: pointer;
+  }
+}
 </style>

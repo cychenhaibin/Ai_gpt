@@ -48,31 +48,13 @@ import menuRight from './views/menu/menuRight.vue'
     width: 200px;
     height: 100vh;
     background: #ffffff;
-
+    position: relative;
+    z-index: 100;
   }
   .right {
     flex: 1;
     background: #f2f2f2;
   }
 }
-.loginList {
-  position: absolute;
-  top: 25px;
-  left:175px;
-  width: 120px;
-  height: 80px;
-  background: #C90000;
-  border-radius: 12px;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  .setting{
-    cursor: pointer;
-  }
-  .exit{
-    cursor: pointer;
-  }
-}
+
 </style>
